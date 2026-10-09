@@ -1,0 +1,53 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Check tag matches manifest version
+        run: |
+          version=$(node -p "require('./manifest.json').version")
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match manifest.json version $version"
+            exit 1
+          fi
+
+      - name: Test
+        run: |
+          for f in content.js background.js offscreen.js; do node --check "$f"; done
+          node --test
+
+      - name: Build zip
+        run: |
+          mkdir -p dist/auto-caption-saver
+          cp manifest.json background.js content.js offscreen.html offscreen.js LICENSE dist/auto-caption-saver/
+          (cd dist && zip -r "auto-caption-saver-$GITHUB_REF_NAME.zip" auto-caption-saver)
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" "dist/auto-caption-saver-$GITHUB_REF_NAME.zip" \
+            --title "$GITHUB_REF_NAME" --generate-notes --notes "$(cat <<'NOTES'
+          ## Install
+
+          1. Download `auto-caption-saver-<version>.zip` below and unzip it.
+          2. Open `chrome://extensions` and turn on **Developer mode**.
+          3. Click **Load unpacked** and select the unzipped `auto-caption-saver` folder.
+
+          To update, replace the folder with the new version and click the reload icon on the extension card, then reload any open meeting tabs.
+          NOTES
+          )"

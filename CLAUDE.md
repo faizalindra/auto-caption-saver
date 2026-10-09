@@ -15,6 +15,7 @@ No build step, package manager, or dependencies. Plain JS loaded unpacked.
 - Manifest check: `node -e "JSON.parse(require('fs').readFileSync('manifest.json','utf8'))"`
 - Run: `chrome://extensions` → Developer mode → Load unpacked → this folder. Reload open Meet/Zoom tabs after reloading the extension.
 - Manual test plan: `TESTING.md`.
+- Release: bump `version` in `manifest.json`, commit, then `git tag v<version> && git push --tags`. `.github/workflows/release.yml` fails if the tag doesn't match the manifest version. It runs the tests, zips the runtime files into an `auto-caption-saver/` folder, and publishes a GitHub Release. Any new runtime file must also be added to the workflow's `cp` line.
 
 Tests load the real source files into `node:vm` with hand-written fakes (`chrome.*` in `test/background.test.js`, a selector-shaped fake DOM in `test/content.test.js`). Values crossing the vm boundary have a different realm, so `assert.deepEqual` on vm-created arrays/objects fails on prototype — compare via JSON or by mapping to fresh values.
 

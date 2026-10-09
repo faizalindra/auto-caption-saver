@@ -22,9 +22,9 @@ Other caption-saving extensions only save if you click save before the call clos
 
 The extension isn't on the Chrome Web Store. Load it unpacked:
 
-1. Clone or download this repository.
+1. Download `auto-caption-saver-<version>.zip` from the [latest release](https://github.com/faizalindra/auto-caption-saver/releases/latest) and unzip it. You can also clone this repository instead.
 2. Open `chrome://extensions` and turn on **Developer mode**.
-3. Click **Load unpacked** and select the repository folder.
+3. Click **Load unpacked** and select the unzipped `auto-caption-saver` folder, or the cloned repository folder.
 
 Requires Chrome 116 or newer.
 
@@ -97,6 +97,12 @@ node --test --test-name-pattern="idempotent"  # one test by name
 ```
 
 The automated tests can't check that the selectors match the live Meet or Zoom page. See [TESTING.md](TESTING.md) for the manual test plan.
+
+To release a new version:
+1. Bump `version` in `manifest.json` and commit.
+2. Run `git tag v<version> && git push --tags`.
+
+GitHub Actions then runs the tests, builds the zip and publishes the release.
 
 ## Ideas
 
