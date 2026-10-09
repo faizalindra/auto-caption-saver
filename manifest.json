@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Auto Caption Saver",
+  "version": "1.1",
+  "description": "Saves Google Meet and Zoom Web live captions to a .txt file automatically when the meeting ends.",
+  "minimum_chrome_version": "116",
+  "permissions": ["storage", "downloads", "tabs", "offscreen"],
+  "host_permissions": ["https://meet.google.com/*", "https://*.zoom.us/*"],
+  "background": { "service_worker": "background.js" },
+  "action": { "default_title": "Auto Caption Saver" },
+  "content_scripts": [{
+    "matches": ["https://meet.google.com/*", "https://*.zoom.us/wc/*"],
+    "js": ["content.js"],
+    "run_at": "document_idle",
+    "all_frames": true
+  }]
+}
