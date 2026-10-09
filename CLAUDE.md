@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What it is
 
-Chrome MV3 extension (Chrome 116+) that captures live captions from Google Meet (`meet.google.com`) and Zoom Web (`*.zoom.us/wc/*`), persists them continuously to `chrome.storage.local`, and writes a `.txt` to `Downloads/MeetingCaptions/<YYYY-MM-DD-HH-mm>_<platform>_<title>.txt` when the meeting ends — with no manual save step. Line format: `[HH:MM:SS] Speaker: text`. `readme.md` holds the original spec and the original (pre-fix) code.
+Chrome MV3 extension (Chrome 116+) that captures live captions from Google Meet (`meet.google.com`) and Zoom Web (`*.zoom.us/wc/*`), persists them continuously to `chrome.storage.local`, and writes a `.txt` to `Downloads/MeetingCaptions/<YYYY-MM-DD-HH-mm>_<platform>_<title>.txt` when the meeting ends — with no manual save step. Line format: `[HH:MM:SS] Speaker: text`. `README.md` is the public-facing README; the original spec is in the first commit's history.
 
 ## Commands
 
@@ -32,4 +32,4 @@ Key constraint: a page cannot reliably download during teardown, so **the conten
 
 All Meet/Zoom DOM/URL specifics live in the `ADAPTERS` object in `content.js` (`meetingKey`, `inCall`, `enableCaptions`, `blocks`). Meet and Zoom change markup often. For a "nothing captured" bug, edit only the relevant `ADAPTERS` function. The automated tests can't validate real selectors.
 
-Out of scope (readme "future ideas"): tabCapture + local Whisper fallback, LLM summary step. Can't be captured at all: the Zoom desktop app, and Zoom meetings where the host disabled transcription.
+Out of scope (README "Ideas"): tabCapture + local Whisper fallback, LLM summary step. Can't be captured at all: the Zoom desktop app, and Zoom meetings where the host disabled transcription.
