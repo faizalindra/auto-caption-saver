@@ -102,3 +102,7 @@ The automated tests can't check that the selectors match the live Meet or Zoom p
 
 - Fallback when captions are unavailable: capture tab audio with `chrome.tabCapture` and transcribe locally with Whisper.
 - After the meeting: send the transcript to an LLM and save a summary with action items next to the `.txt`.
+
+## License
+
+[MIT](LICENSE)
